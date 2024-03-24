@@ -25,7 +25,7 @@ export default function Form(){
      
      let heightFormat = height.replace(",",".")
      let totalImc = ((weight / (heightFormat * heightFormat)).toFixed(2))
-     setimcList((array) => [...array, {id:Math.floor(Math.random * 100), imc: totalImc}] )
+     setimcList((array) => [...array, {id: Math.floor(Math.random * 100), imc: totalImc}] )
      setIMC(totalImc)
     }
     

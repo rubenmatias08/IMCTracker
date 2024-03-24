@@ -8,25 +8,42 @@ export default function Form(){
 
     const [height, setHeight] = useState(null);
     const [weight, setWeight] = useState(null);
-    const [messageIMC, setmessageIMC] = useState("");
-    const [imc, setIMC] = useState(null);
-    const [textButton, setTextButton] = useState("Calculate your IMC");
-    const [imcList, setimcList] = useState([]); 
+    const [messageIMC, setmessageIMC] = useState(""); // Mensagem que contem o resultado , começa vazio mas podemos adicionar mensagem inicial.
+    const [imc, setIMC] = useState(null); // valor do IMC em numero
+    const [textButton, setTextButton] = useState("Calculate your IMC"); //Botão que acionará o calculo
+    const [imcList, setimcList] = useState([]); //Lista com todos os imc´s calculados
+
+
+    // LIDAR COM ERRO (PARTE 1)
+    // Para lidar com o erro de não termos inserido nenhum dado em height e weight podemos mostrar a mensagem mas melhor ainda é aplicar outra coisa, assim:
     const [errorMessage,seterrorMessage] = useState(null);
 
 
+
+
+    // LIDAR COM ERRO (PARTE 2)
+    // Criamos uma função para verificar se existe valor de IMC calculado e lançar mensagem de erro caso nao haja.
     function verificationIMC(){
         if(imc == null){
+            // Aqui para vibrar chamamos a API do react native "Vibration" e o método "vibrate", é um método definido pelo react native
             Vibration.vibrate();
             seterrorMessage("Required data*")}
     }
+    
 
+
+
+    // [Calculo para saber o indice de IMC é: altura x altura a dividir por peso]
+    // Vamos querer que nos retorne o resultado com (toFixed) que é para vir com 2 casas decimais apenas.
     function CalculatorIMC(){
-     
-     let heightFormat = height.replace(",",".")
-     let totalImc = ((weight / (heightFormat * heightFormat)).toFixed(2))
-     setimcList((array) => [...array, {id:Math.floor(Math.random * 100), imc: totalImc}] )
-     setIMC(totalImc)
+        // No IOS o teclado não aparece com ponto, portanto temos de formatar aqui para quando digitarem virgula, formate para ponto.
+        let heightFormat = height.replace(",",".")
+       let totalImc = ((weight / (heightFormat * heightFormat)).toFixed(2))
+       // Para inserir os resultados num array:
+        //setimcList((array) => [...array, {id: new Date().getTime(), imc: totalImc}] )
+        setimcList((array) => [...array, {id: Math.floor(Math.random * 100), imc: totalImc}] )
+       // Depois definimos que o nosso setIMC é a variável do calculo
+       setIMC(totalImc)
     }
     
 
@@ -96,7 +113,7 @@ export default function Form(){
                         </Text>
                         
                     )}}
-                keyExtractor={(item) => {item.id}}
+                keyExtractor={(item) => { item.id}}
                 showsVerticalScrollIndicator = {false}
                 />
         </View>
